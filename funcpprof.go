@@ -13,9 +13,7 @@ var profilesData *ProfilesData
 
 func init() {
 	profilesData = &ProfilesData{
-		list: &QueueList{
-			maxQueue: MaxProfiles,
-		},
+		list: NewQueueList(MaxProfiles),
 	}
 }
 
