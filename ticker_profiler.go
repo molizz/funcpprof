@@ -43,7 +43,7 @@ func (f *TickerProfiler) tickerFunc() {
 		return
 	}
 
-	profileCollect.AddNewProfile(profileMap)
+	profilesData.AddNewProfile(profileMap)
 }
 
 func (f *TickerProfiler) Stop() {
