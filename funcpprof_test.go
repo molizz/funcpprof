@@ -16,7 +16,7 @@ func TestTickerProfiler(t *testing.T) {
 	time.Sleep(time.Duration(10+rand.Intn(10)) * time.Millisecond)
 	cpuWork2()
 
-	profiles := GetProfile()
+	profiles := GetProfiles()
 	// for n, t := range profiles {
 	// 	fmt.Println(t, n)
 	// }

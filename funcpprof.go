@@ -1,23 +1,51 @@
 package funcpprof
 
-var profileCollect *ProfileCollect
+import (
+	"time"
+)
+
+/*
+每次监控到的数据应存起来(最大数量)
+*/
+
+var MaxProfiles = 400
+var profilesData *ProfilesData
 
 func init() {
-	profileCollect = &ProfileCollect{}
+	profilesData = &ProfilesData{
+		list: &QueueList{
+			maxQueue: MaxProfiles,
+		},
+	}
 }
 
-func GetProfile() map[string]int64 {
-	return profileCollect.profilesMap
+func GetProfiles(stamp int64) []*Profile {
+	profiles := make([]*Profile, 0)
+	profilesData.list.Each(func(v interface{}) {
+		pro, ok := v.(*Profile)
+		if !ok {
+			return
+		}
+		if pro.stamp > stamp {
+			profiles = append(profiles, pro)
+		}
+	})
+	return profiles
 }
 
-type ProfileCollect struct {
-	profilesMap map[string]int64
-	// mu          sync.Mutex
+type Profile struct {
+	profilesSet map[string]int64
+	stamp       int64
 }
 
-func (p *ProfileCollect) AddNewProfile(newProfile map[string]int64) {
-	// p.mu.Lock()
-	// defer p.mu.Unlock()
+type ProfilesData struct {
+	list *QueueList
+}
 
-	p.profilesMap = newProfile
+func (p *ProfilesData) AddNewProfile(newProfile map[string]int64) {
+	profile := &Profile{
+		profilesSet: newProfile,
+		stamp:       time.Now().Unix(),
+	}
+	p.list.Push(profile)
 }
