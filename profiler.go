@@ -22,11 +22,11 @@ func StopProfiler(ignoreRuntime bool) error {
 		return err
 	}
 
-	profileMap, err := Parse(profile, ignoreRuntime)
+	stackNodes, err := Parse(profile, ignoreRuntime)
 	if err != nil {
 		return fmt.Errorf("parse profile is err: %v", err)
 	}
 
-	profilesData.AddNewProfile(profileMap)
+	stackData.AddNewStack(stackNodes)
 	return nil
 }

@@ -9,18 +9,18 @@ import (
 */
 
 var MaxProfiles = 400
-var profilesData *ProfilesData
+var stackData *StackData
 
 func init() {
-	profilesData = &ProfilesData{
+	stackData = &StackData{
 		list: NewQueueList(MaxProfiles),
 	}
 }
 
-func GetProfiles(stamp int64) []*Profile {
-	profiles := make([]*Profile, 0)
-	profilesData.list.Each(func(v interface{}) {
-		pro, ok := v.(*Profile)
+func GetProfiles(stamp int64) []*Profiling {
+	profiles := make([]*Profiling, 0)
+	stackData.list.Each(func(v interface{}) {
+		pro, ok := v.(*Profiling)
 		if !ok {
 			return
 		}
@@ -31,19 +31,19 @@ func GetProfiles(stamp int64) []*Profile {
 	return profiles
 }
 
-type Profile struct {
-	profilesSet map[string]int64
-	stamp       int64
+type Profiling struct {
+	stacks []*FunctionStack
+	stamp  int64
 }
 
-type ProfilesData struct {
+type StackData struct {
 	list *QueueList
 }
 
-func (p *ProfilesData) AddNewProfile(newProfile map[string]int64) {
-	profile := &Profile{
-		profilesSet: newProfile,
-		stamp:       time.Now().Unix(),
+func (p *StackData) AddNewStack(newStack []*FunctionStack) {
+	profile := &Profiling{
+		stacks: newStack,
+		stamp:  time.Now().Unix(),
 	}
 	p.list.Push(profile)
 }

@@ -37,13 +37,13 @@ func (f *TickerProfiler) tickerFunc() {
 		return
 	}
 	fmt.Println("profile .. ", len(profile.Sample))
-	profileMap, err := Parse(profile, f.ignoreRuntime)
+	stackNode, err := Parse(profile, f.ignoreRuntime)
 	if err != nil {
 		fmt.Println(fmt.Errorf("parse profile is err: %v", err))
 		return
 	}
 
-	profilesData.AddNewProfile(profileMap)
+	stackData.AddNewStack(stackNode)
 }
 
 func (f *TickerProfiler) Stop() {
