@@ -16,7 +16,7 @@ type CPUProfiler struct {
 	stopNano    int64
 }
 
-func (p *CPUProfiler) StartProfiler() error {
+func (p *CPUProfiler) StartProfile() error {
 	p.pprofBuff = &bytes.Buffer{}
 	p.pprofWriter = bufio.NewWriter(p.pprofBuff)
 	p.startNano = time.Now().UnixNano()
@@ -28,7 +28,7 @@ func (p *CPUProfiler) StartProfiler() error {
 	return nil
 }
 
-func (p *CPUProfiler) StopProfiler() (*profile.Profile, error) {
+func (p *CPUProfiler) StopProfile() (*profile.Profile, error) {
 	pprof.StopCPUProfile()
 	p.stopNano = time.Now().UnixNano()
 	err := p.pprofWriter.Flush()

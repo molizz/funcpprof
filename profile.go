@@ -6,18 +6,18 @@ import (
 	"github.com/molizz/funcpprof/profiler"
 )
 
-func StartProfiler() error {
+func StartProfile() error {
 	cpuProfiler := profiler.CPUProfiler{}
-	err := cpuProfiler.StartProfiler()
+	err := cpuProfiler.StartProfile()
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func StopProfiler(ignoreRuntime bool) error {
+func StopProfile(ignoreRuntime bool) error {
 	cpuProfiler := profiler.CPUProfiler{}
-	profile, err := cpuProfiler.StopProfiler()
+	profile, err := cpuProfiler.StopProfile()
 	if err != nil {
 		return err
 	}

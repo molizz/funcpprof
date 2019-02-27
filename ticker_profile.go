@@ -22,7 +22,7 @@ type TickerProfiler struct {
 
 func (f *TickerProfiler) tickerFunc() {
 	cpuProfiler := profiler.CPUProfiler{}
-	err := cpuProfiler.StartProfiler()
+	err := cpuProfiler.StartProfile()
 	if err != nil {
 		fmt.Println(fmt.Errorf("start profiler is err: %v", err))
 		return
@@ -31,7 +31,7 @@ func (f *TickerProfiler) tickerFunc() {
 	timer := time.NewTimer(time.Duration(TickerDelay) * time.Second)
 	<-timer.C
 
-	profile, err := cpuProfiler.StopProfiler()
+	profile, err := cpuProfiler.StopProfile()
 	if err != nil {
 		fmt.Println(fmt.Errorf("stop profiler is err: %v", err))
 		return
