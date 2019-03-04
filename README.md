@@ -6,7 +6,9 @@ Golang 函数级别的监控
 
 #### 定时监控采样
 
-使用说明
+##### 使用说明
+
+定时采集
 
 ```go
 //s, 每隔n秒进行一次采集
@@ -30,6 +32,22 @@ ticker := StartTickerProfiler(false)
 profiles := GetProfiles(0)
 
 ```
+
+常规采集 
+
+```go
+_ = funcpprof.StartProfile()
+defer func() {
+    _ = funcpprof.StopProfile(true)
+    // 获取采集的数据, 并输出到 pprof.log文件
+    err := funcpprof.GetProfiles(0).Flush("pprof.log")
+    if err != nil {
+    }
+}()
+
+```
+
+
 
 ### 广告
 

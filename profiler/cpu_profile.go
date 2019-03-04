@@ -36,8 +36,8 @@ func (p *CPUProfiler) StopProfile() (*profile.Profile, error) {
 		return nil, err
 	}
 
-	if p, err := profile.Parse(p.pprofBuff); err == nil {
-		return p, nil
+	if pf, err := profile.Parse(p.pprofBuff); err == nil {
+		return pf, nil
 	} else {
 		return nil, err
 	}

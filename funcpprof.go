@@ -1,6 +1,7 @@
 package funcpprof
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -17,7 +18,7 @@ func init() {
 	}
 }
 
-func GetProfiles(stamp int64) []*Profiling {
+func GetProfiles(stamp int64) Profiles {
 	profiles := make([]*Profiling, 0)
 	stackData.list.Each(func(v interface{}) {
 		pro, ok := v.(*Profiling)
@@ -28,12 +29,27 @@ func GetProfiles(stamp int64) []*Profiling {
 			profiles = append(profiles, pro)
 		}
 	})
-	return profiles
+	return Profiles(profiles)
 }
 
 type Profiling struct {
 	stacks []*FunctionStack
 	stamp  int64
+}
+
+type Profiles []*Profiling
+
+func (p Profiles) Each(fn func(string)) {
+	for _, pf := range p {
+		for _, s := range pf.stacks {
+			f := fmt.Sprintf("%d\t%s", s.Duration, s.Name)
+			fn(f)
+		}
+	}
+}
+
+func (p Profiles) Flush(path string) error {
+	return NewWrite(p).Flush(path)
 }
 
 type StackData struct {
